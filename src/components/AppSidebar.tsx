@@ -1,79 +1,93 @@
-import { useAuth } from "@/context/AuthProvider";
 import { cn } from "@/lib/utils";
 import menuItems from "@/static/menuConfig";
-import { LogOut } from "lucide-react";
-import { useCallback, useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "./ui/sidebar";
+import { Button } from "./ui/button";
 import { X, Menu } from "lucide-react";
+// import { Separator } from "@radix-ui/react-separator";
 
 const AppSidebar = () => {
-  const { logout } = useAuth();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-
-  const handleLogout = useCallback(() => {
-    logout();
-  }, [logout]);
+  const { toggleSidebar, state } = useSidebar();
+  const isCollapsed = state === "collapsed";
 
   return (
-    <Sidebar className="px-1">
-      <SidebarHeader className="flex flex-row pt-4 text-sm font-semibold md:text-2xl">
-        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
-          <span className="text-lg font-bold text-white">ZP</span>
-        </div>
-        <div className="flex flex-col">
-          <h1 className="text-base font-semibold text-gray-900">
-            Zofoxx Pointz
-          </h1>
-          <span className="text-xs text-gray-500">Super Admin</span>
+    <Sidebar
+      className={cn("border-r border-gray-200")}
+      collapsible="icon"
+    >
+      <SidebarHeader className="border-b border-gray-200">
+        <div className="flex h-12 items-center gap-3 px-4">
+          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
+            <span className="text-lg font-bold text-white">ZP</span>
+          </div>
+
+          {/* Show title and subtitle only when sidebar is expanded */}
+          {!isCollapsed && (
+            <div className="flex flex-col">
+              <h1 className="font-semibold text-gray-900">Zofoxx Pointz</h1>
+              <span className="text-xs text-gray-500">Super Admin</span>
+            </div>
+          )}
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="my-8">
+      <SidebarContent className={cn("flex-1 overflow-y-auto py-4")}>
         <SidebarGroup>
-          <SidebarGroupLabel className="sr-only">
-            Navigation Links
-          </SidebarGroupLabel>
-          <nav>
-            <SidebarMenu className="space-y-1">
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title} className="">
-                  <NavLink
-                    className={({ isActive }) =>
-                      cn(
-                        "mx-2 flex items-center gap-4 px-3 py-3",
-                        isActive && "rounded-md bg-blue-50 text-blue-600"
-                      )
-                    }
-                    to={item.url}
-                  >
-                    <item.icon className="h-5 w-5" />
-                    <span>{item.title}</span>
-                  </NavLink>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </nav>
+          <SidebarMenu>
+            {menuItems.map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <NavLink
+                  to={item.url}
+                  className={({ isActive }) =>
+                    cn(
+                      "flex items-center gap-3 px-4 py-3 transition-colors",
+                      isActive
+                        ? "border-r-2 border-blue-600 bg-blue-50 text-blue-600"
+                        : "text-gray-600 hover:bg-gray-50",
+                      // When collapsed, center the icon
+                      isCollapsed && "justify-center px-3"
+                    )
+                  }
+                  end
+                >
+                  <item.icon className="h-5 w-5 flex-shrink-0" />
+                  {/* Show text only when sidebar is expanded */}
+                  {!isCollapsed && (
+                    <span className="text-sm font-medium">{item.title}</span>
+                  )}
+                </NavLink>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="pb-4">
-        <SidebarMenuButton
-          onClick={handleLogout}
-          className="text-destructive hover:text-destructive w-full justify-start"
+
+      <SidebarFooter className="border-t border-gray-200 p-0">
+        {/* Sidebar Toggle Button */}
+        <Button
+          onClick={toggleSidebar}
+          variant="ghost"
+          className="flex h-12 w-full items-center justify-center gap-2 text-gray-500 hover:bg-gray-50"
+          aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
-          <LogOut className="mr-2 h-4 w-4" />
-          Logout
-        </SidebarMenuButton>
+          {/* Show Menu icon when collapsed, X icon when expanded */}
+          {isCollapsed ? (
+            <Menu className="h-5 w-5" />
+          ) : (
+            <>
+              <X className="h-5 w-5" />
+            </>
+          )}
+        </Button>
       </SidebarFooter>
     </Sidebar>
   );
