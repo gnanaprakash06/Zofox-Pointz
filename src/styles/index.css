@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "./abstracts/variables.css";
+@import "./base/base.css";
+@import "./components/button.css";
+@import "./utilities/utilities.css";
+@plugin 'tailwind-scrollbar';
+
+@custom-variant dark (&:is(.dark *));

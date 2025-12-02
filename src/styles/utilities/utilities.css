@@ -1,0 +1,7 @@
+@utility font-synthesis {
+  font-synthesis: none;
+}
+
+@utility text-rendering {
+  text-rendering: optimizeLegibility;
+}

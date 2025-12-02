@@ -1,0 +1,6 @@
+echo "Running lint and format checks..."
+npx lint-staged
+
+# check for build errors
+echo "Running build check..."
+npm run build

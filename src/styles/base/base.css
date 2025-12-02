@@ -1,0 +1,21 @@
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-inter font-synthesis text-rendering bg-background text-foreground antialiased;
+  }
+
+  body {
+    @apply min-w-xs bg-background text-foreground flex items-center justify-center;
+  }
+
+  #root {
+    @apply flex w-full flex-1;
+  }
+}
+
+/* 
+Keep overflow-x-hidden on the html, body if you ever see scrollbars.
+*/

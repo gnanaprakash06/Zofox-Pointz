@@ -1,0 +1,45 @@
+# Ignore node_modules
+node_modules/
+node_modules/.vite
+
+# Ignore build output
+dist/
+build/
+
+# Ignore TypeScript build info files
+*.tsbuildinfo
+
+# Ignore lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Ignore environment files
+.env
+.env.* 
+
+# Ignore Vite cache
+.vite/
+
+# Ignore other common files
+coverage/
+
+.vscode/
+*.swp
+.idea/
+
+coverage/
+test-results/
+
+# Husky (if applicable)
+.husky/_/
+
+# Generated/minified files
+*.min.js
+*.min.css
+*.bundle.js
+
+# Generated/minified files
+*.min.js
+*.min.css
+*.bundle.js
